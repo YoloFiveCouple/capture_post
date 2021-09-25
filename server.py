@@ -35,9 +35,13 @@ def get_pictures():
     for f in files:
         print(f)
         with open(f, "rb") as img_file:
+            file_date = f.split('-')[1]
+            print(file_date)
+            print(file_date[:8])
             img = {
                 "id": idx,
-                "filename" : f,
+                "file_name" : f,
+                "file_date" : file_date[:8],
                 "img" : base64.b64encode(img_file.read()).decode('utf-8')
             }
             idx = idx + 1
