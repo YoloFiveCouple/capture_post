@@ -5,6 +5,7 @@ from flask_cors import CORS
 import json
 import base64
 from io import BytesIO
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -36,12 +37,13 @@ def get_pictures():
         print(f)
         with open(f, "rb") as img_file:
             file_date = f.split('-')[1]
-            print(file_date)
-            print(file_date[:8])
+            file_time = file_date[8:10] + ':' + file_date[10:12]
+            print(file_time)
             img = {
                 "id": idx,
                 "file_name" : f,
                 "file_date" : file_date[:8],
+                "file_time" : file_time,
                 "img" : base64.b64encode(img_file.read()).decode('utf-8')
             }
             idx = idx + 1
