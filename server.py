@@ -10,6 +10,7 @@ import subprocess
 
 from pymongo import MongoClient
 import pymongo
+from bson.json_util import dumps, loads
 
 app = Flask(__name__)
 CORS(app)
@@ -60,8 +61,10 @@ def get_yolov5_pictures():
         my_collection = yolo5coupledb.yolo5couple2
 
         objects = my_collection.find()
+        l = list(objects) # Converts object to list
+        print(l)
 
-    return jsonify({"result" : objects})
+    return jsonify({"result" : l})
 
 @app.route('/api/picture', methods=['GET'])
 def get_picture(pictureId):
