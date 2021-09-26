@@ -6,6 +6,7 @@ import json
 import base64
 from io import BytesIO
 import datetime
+import subprocess
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +20,10 @@ def save_picture():
     fs = request.files['imageFile']
     # file save
     fs.save(os.getcwd() + '/image/' + fs.filename)
+
+    print("call subprocess. /root/app/Yolo5Couple/detect.py start!")
+    subprocess.check_call(['python','/root/app/yolov5ForCouple/detect.py --source /content/04-20210926140930-00.jpg --weight best_20210926.pt'])
+    print("call subprocess. /root/app/Yolo5Couple/detect.py end!")
     return "ok"
 
 @app.route('/api/picture', methods=['GET'])
