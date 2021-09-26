@@ -39,11 +39,11 @@ def get_pictures():
     print(os.getcwd() + IMAGE_PATH)
     idx = 1
     for f in files:
-        print(f)
+        #print(f)
         with open(f, "rb") as img_file:
             file_date = f.split('-')[1]
             file_time = file_date[8:10] + ':' + file_date[10:12]
-            print(file_time)
+            #print(file_time)
             img = {
                 "id": idx,
                 "file_name" : f,
