@@ -38,7 +38,7 @@ def save_picture():
         my_collection.insert_one(yolov5obj)
 
         assert client is not None
-        
+
     print(cnt)
     print(request.files)
     # file name
@@ -52,6 +52,15 @@ def save_picture():
         print("call subprocess. /root/app/Yolo5Couple/detect.py end!")
 
     return "ok"
+
+@app.route('/api/yolov5/pictures', methods=['GET'])
+def get_yolov5_pictures():
+    with MongoClient("mongodb://localhost:27017") as client:
+        yolo5coupledb = client.yolo5couple
+        my_collection = yolo5coupledb.yolo5couple2
+
+        objects = my_collection.find()
+        print(objects)
 
 @app.route('/api/picture', methods=['GET'])
 def get_picture(pictureId):
