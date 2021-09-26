@@ -60,7 +60,8 @@ def get_yolov5_pictures():
         my_collection = yolo5coupledb.yolo5couple2
 
         objects = my_collection.find()
-        print(objects)
+
+    return jsonify({"result" : objects})
 
 @app.route('/api/picture', methods=['GET'])
 def get_picture(pictureId):
