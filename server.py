@@ -27,9 +27,9 @@ def save_picture():
     print(cnt)
     print(request.files)
     # file name
-    fs = request.files['imageFile']
-    # file save
-    fs.save(os.getcwd() + '/image/' + fs.filename)
+    # fs = request.files['imageFile']
+    # # file save
+    # fs.save(os.getcwd() + '/image/' + fs.filename)
 
     if cnt % 5 == 0:
         print("call subprocess. /root/app/Yolo5Couple/detect.py start!")
