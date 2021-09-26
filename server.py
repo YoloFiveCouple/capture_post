@@ -27,13 +27,13 @@ def save_picture():
     print(cnt)
     print(request.files)
     # file name
-    # fs = request.files['imageFile']
+    fs = request.files['imageFile']
     # # file save
-    # fs.save(os.getcwd() + '/image/' + fs.filename)
+    fs.save(os.getcwd() + '/image/' + fs.filename)
 
     if cnt % 5 == 0:
         print("call subprocess. /root/app/Yolo5Couple/detect.py start!")
-        subprocess.check_call(['python','/root/app/yolov5ForCouple/detect.py', '--source', '/content/04-20210926140930-00.jpg', '--weight','/root/app/yolov5ForCouple/best_20210926.pt'])
+        subprocess.check_call(['python','/root/app/yolov5ForCouple/detect.py', '--source', '/content/' + fs.filename, '--weight','/root/app/yolov5ForCouple/best_20210926.pt'])
         print("call subprocess. /root/app/Yolo5Couple/detect.py end!")
 
     return "ok"
