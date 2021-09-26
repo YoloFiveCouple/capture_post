@@ -8,6 +8,9 @@ from io import BytesIO
 import datetime
 import subprocess
 
+from pymongo import MongoClient
+import pymongo
+
 app = Flask(__name__)
 CORS(app)
 
@@ -24,6 +27,18 @@ def save_picture():
         df['count'] += 1
         json.dump(df, f)
 
+    with MongoClient("mongodb://localhost:27017") as client:
+        yolo5coupledb = client.yolo5couple
+        my_collection = yolo5coupledb.yolo5coupleSample
+
+        yolov5obj = {
+            "id" : 1,
+            "data" : "hogehoge"
+        }
+        my_collection.insert_one(yolov5obj)
+
+        assert client is not None
+        
     print(cnt)
     print(request.files)
     # file name
