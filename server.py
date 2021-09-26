@@ -12,6 +12,12 @@ from pymongo import MongoClient
 import pymongo
 from bson.json_util import dumps, loads
 
+
+def get_data(data):
+     data['_id'] = str(data['_id'])
+     return data
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -54,17 +60,17 @@ def save_picture():
 
     return "ok"
 
+
 @app.route('/api/yolov5/pictures', methods=['GET'])
 def get_yolov5_pictures():
     with MongoClient("mongodb://localhost:27017") as client:
-        yolo5coupledb = client.yolo5couple
-        my_collection = yolo5coupledb.yolo5couple2
+        yolo5coupledb = client.yolov5couple
+        my_collection = yolo5coupledb.yolov5couple2
 
         objects = my_collection.find()
-        l = list(objects) # Converts object to list
-        print(l)
+        temp = [get_data(i) for i in objects]
 
-    return jsonify({"result" : l})
+    return jsonify({"result" : temp})
 
 @app.route('/api/picture', methods=['GET'])
 def get_picture(pictureId):
