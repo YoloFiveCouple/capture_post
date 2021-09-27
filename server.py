@@ -14,8 +14,8 @@ from bson.json_util import dumps, loads
 
 
 def get_data(data):
-     data['_id'] = str(data['_id'])
-     return data
+    data['_id'] = str(data['_id'])
+    return data
 
 
 app = Flask(__name__)
@@ -63,9 +63,11 @@ def save_picture():
 
 @app.route('/api/yolov5/pictures', methods=['GET'])
 def get_yolov5_pictures():
-    with MongoClient("mongodb://localhost:27017") as client:
+    with MongoClient("mongodb://192.168.0.100:27017") as client:
         yolo5coupledb = client.yolov5couple
         my_collection = yolo5coupledb.yolov5couple2
+
+        print(type(my_collection))
 
         objects = my_collection.find()
         temp = [get_data(i) for i in objects]
