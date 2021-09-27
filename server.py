@@ -22,6 +22,7 @@ app = Flask(__name__)
 CORS(app)
 
 IMAGE_PATH = "/image/*"
+DETECT_PY_BASE_PATH = "/root/app/yolov5ForCouple/"
 
 @app.route('/api/motion', methods=['POST'])
 def save_picture():
@@ -55,7 +56,7 @@ def save_picture():
 
     if cnt % 5 == 0:
         print("call subprocess. /root/app/Yolo5Couple/detect.py start!")
-        subprocess.check_call(['python','/root/app/yolov5ForCouple/detect.py', '--source', os.getcwd() + '/image/' + fs.filename, '--weight','/root/app/yolov5ForCouple/best_20210926.pt'])
+        subprocess.check_call(['python',DETECT_PY_BASE_PATH + 'detect.py', '--source', os.getcwd() + '/image/' + fs.filename, '--weight','/root/app/yolov5ForCouple/best_20210926.pt'])
         print("call subprocess. /root/app/Yolo5Couple/detect.py end!")
 
     return "ok"
@@ -63,7 +64,7 @@ def save_picture():
 
 @app.route('/api/yolov5/pictures', methods=['GET'])
 def get_yolov5_pictures():
-    with MongoClient("mongodb://192.168.0.100:27017") as client:
+    with MongoClient("mongodb://localhost:27017") as client:
         yolo5coupledb = client.yolov5couple
         my_collection = yolo5coupledb.yolov5couple2
 
@@ -71,6 +72,14 @@ def get_yolov5_pictures():
 
         objects = my_collection.find()
         temp = [get_data(i) for i in objects]
+
+        for item in temp:
+            print(item['msg'])
+            try:
+                with open(item['img'], "rb") as img_file:
+                    item['base64'] = base64.b64encode(img_file.read()).decode('utf-8')
+            except Exception:
+                print("[error] file not found...")
 
     return jsonify({"result" : temp})
 
